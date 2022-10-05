@@ -1,0 +1,6 @@
+{
+  "imports": {
+    "https://deno.land/x/lru_map@$VERSION/": "./",
+    "https://deno.land/std@$VERSION/": "https://deno.land/std@0.158.0/"
+  }
+}

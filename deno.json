@@ -1,0 +1,25 @@
+{
+  "tasks": {
+    "test": "deno test --doc"
+  },
+  "fmt": {
+    "files": {
+      "exclude": ["npm", "CHANGELOG.md", "CODE_OF_CONDUCT.md"]
+    }
+  },
+  "lint": {
+    "files": {
+      "exclude": ["npm", "CHANGELOG.md", "CODE_OF_CONDUCT.md"]
+    }
+  },
+  "test": {
+    "files": {
+      "exclude": ["npm", "CHANGELOG.md", "CODE_OF_CONDUCT.md"]
+    }
+  },
+  "compilerOptions": {
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true
+  },
+  "importMap": "_test_import_map.json"
+}
