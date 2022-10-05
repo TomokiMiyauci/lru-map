@@ -1,6 +1,6 @@
 # lru-map
 
-Minimum LRU cache based on `Map` object.
+Minimum LRU (Least Recently Used) cache based on `Map` object.
 
 ## What
 
@@ -40,6 +40,13 @@ items.
 Of course, if the maximum number is greater than 2^24, the result will be the
 same as for the `Map` object.
 
+## Definition of Used
+
+"Used" is ambiguous, so we will clarify the situation.
+
+Used" is defined as when the actual item is retrieved. That is, a reference by
+`get` is "used", but a reference by `has` is not "used".
+
 ## Basic usage
 
 LRU Map and `Map` look almost the same. You must always give `maxSize` as a
@@ -47,7 +54,7 @@ constructor argument.
 
 ```ts
 import { LRUMap } from "https://deno.land/x/lru_map@$VERSION/mod.ts";
-const map = new LRUMap(100);
+const cache = new LRUMap(100);
 ```
 
 After that, it is used in the same way as `Map`.
@@ -82,9 +89,9 @@ map.set(3, "rightmost");
 assertEquals([...map.values()], ["right", "rightmost"]);
 ```
 
-## Side effects of operations
+## Side effects of Used
 
-When an item is retrieved or set, it is considered most recently used.
+When an item is used, the item is considered most recently used.
 
 As seen in [Iteration](#iteration), items are kept in order of oldest to newest,
 so when these operations are performed, the order of the items will change.
@@ -93,14 +100,11 @@ so when these operations are performed, the order of the items will change.
 import { LRUMap } from "https://deno.land/x/lru_map@$VERSION/mod.ts";
 import { assertEquals } from "https://deno.land/std@$VERSION/testing/asserts.ts";
 
-const map = new LRUMap(2, [[0, "left"], [1, "middle"], [2, "right"]]);
-assertEquals([...map.entries()], [[1, "middle"], [2, "right"]]);
+const map = new LRUMap(2, [[0, "left"], [1, "right"]]);
+assertEquals([...map.entries()], [[0, "left"], [1, "right"]]);
 
-map.set(3, "rightmost");
-assertEquals([...map.entries()], [[2, "right"], [3, "rightmost"]]);
-
-const right = map.get(2);
-assertEquals([...map.entries()], [[3, "rightmost"], [2, "right"]]);
+const left = map.get(0);
+assertEquals([...map.entries()], [[[1, "right"], 0, "left"]]);
 ```
 
 ## License
